@@ -1,0 +1,10 @@
+build/
+cmake-build-*/
+.idea/
+.vscode/
+*.o
+*.out
+*.exe
+*.aux
+*.log
+*.synctex.gz

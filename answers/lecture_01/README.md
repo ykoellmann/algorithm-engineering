@@ -51,7 +51,7 @@ Another way to make a program faster is using SIMD instructions, which allow one
 Code: [`task4/pi_monte_carlo_parallel.cpp`](task4/pi_monte_carlo_parallel.cpp) (original: [`task4/pi_monte_carlo.cpp`](task4/pi_monte_carlo.cpp))
 
 - `#pragma omp parallel` starts a team of threads.
-- Each thread creates its own random engine. A shared engine would be a race condition, and identical seeds would make all threads generate the same points. The seed is built with `seed_seq{seed, thread_id}`, because with `default_random_engine` plain `seed + thread_id` gives identical streams for seeds 0 and 1.
+- Each thread creates its own random engine. A shared engine would be a race condition, and identical seeds would make all threads generate the same points. The seed is built with `seed_seq{seed, thread_id}`, because with `default_random_engine` plain `seed + thread_id` gives identical streams for seeds 0 and 1 (found out after discussing the parallelization with Claude, an AI assistant).
 - `#pragma omp for` splits the loop iterations evenly between the threads.
 - `reduction(+ : counter)` gives every thread a local counter and adds them up at the end, which avoids a race condition on `counter`.
 

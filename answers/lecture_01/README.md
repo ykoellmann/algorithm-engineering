@@ -46,6 +46,24 @@ Another way to make a program faster is using SIMD instructions, which allow one
 **Source:**
 - R. E. Bryant, D. R. O'Hallaron, *Computer Systems: A Programmer's Perspective*, 2nd edition, Chapter 1: A Tour of Computer Systems. http://csapp.cs.cmu.edu/2e/ch1-preview.pdf
 
-## Task 3: Coding Warm-up (optional)
-
 ## Task 4: Parallel Pi with Monte Carlo
+
+Code: [`task4/pi_monte_carlo_parallel.cpp`](task4/pi_monte_carlo_parallel.cpp) (original: [`task4/pi_monte_carlo.cpp`](task4/pi_monte_carlo.cpp))
+
+- `#pragma omp parallel` starts a team of threads.
+- Each thread creates its own random engine. A shared engine would be a race condition, and identical seeds would make all threads generate the same points. The seed is built with `seed_seq{seed, thread_id}`, because with `default_random_engine` plain `seed + thread_id` gives identical streams for seeds 0 and 1.
+- `#pragma omp for` splits the loop iterations evenly between the threads.
+- `reduction(+ : counter)` gives every thread a local counter and adds them up at the end, which avoids a race condition on `counter`.
+
+Results for n = 100,000,000, compiled with `g++ -O2 -fopenmp` on an AMD Ryzen 9 7900 (12 cores, 24 threads):
+
+| Threads | Runtime | Speedup | π |
+|---|---|---|---|
+| 1 | 1.65 s | 1.0× | 3.14164 |
+| 2 | 0.83 s | 2.0× | 3.14180 |
+| 4 | 0.41 s | 4.0× | 3.14201 |
+| 8 | 0.21 s | 7.9× | 3.14193 |
+| 12 | 0.14 s | 11.7× | 3.14187 |
+| 24 | 0.10 s | 16.3× | 3.14166 |
+
+The speedup is almost linear up to 12 threads, because the threads work independently. Beyond that the gain is smaller, since the extra threads share physical cores (simultaneous multithreading, AMD's version of hyperthreading).

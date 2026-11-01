@@ -51,9 +51,9 @@ Another way to make a program faster is using SIMD instructions, which allow one
 Code: [`task4/pi_monte_carlo_parallel.cpp`](task4/pi_monte_carlo_parallel.cpp) (original: [`task4/pi_monte_carlo.cpp`](task4/pi_monte_carlo.cpp))
 
 - `#pragma omp parallel` starts a team of threads.
-- Each thread creates its own random engine. A shared engine would be a race condition, and identical seeds would make all threads generate the same points. The seed is built with `seed_seq{seed, thread_id}`, because with `default_random_engine` plain `seed + thread_id` gives identical streams for seeds 0 and 1 (found out after discussing the parallelization with Claude, an AI assistant).
-- `#pragma omp for` splits the loop iterations evenly between the threads.
-- `reduction(+ : counter)` gives every thread a local counter and adds them up at the end, which avoids a race condition on `counter`.
+- Each thread creates its own random engine. A shared engine would be a race condition, and identical seeds would make all threads generate the same points. The seed is built with `seed_seq{seed, thread_id}`, because with `default_random_engine` plain `seed + thread_id` gives identical streams for seeds 0 and 1 (found out after discussing the parallelization with Claude).
+- The loop iterations are split up manually: each thread starts at its `thread_id` and increments `i` by `num_threads`, so every thread handles every `num_threads`-th point.
+- Every thread counts its hits in a local counter. At the end, `#pragma omp atomic` adds the local counters to `counter` one thread at a time, which avoids a race condition.
 
 Results for n = 100,000,000, compiled with `g++ -O2 -fopenmp` on an AMD Ryzen 9 7900 (12 cores, 24 threads):
 
@@ -61,7 +61,7 @@ Results for n = 100,000,000, compiled with `g++ -O2 -fopenmp` on an AMD Ryzen 9 
 |---|---|---|---|
 | 1 | 1.65 s | 1.0× | 3.14164 |
 | 2 | 0.83 s | 2.0× | 3.14180 |
-| 4 | 0.41 s | 4.0× | 3.14201 |
+| 4 | 0.42 s | 4.0× | 3.14201 |
 | 8 | 0.21 s | 7.9× | 3.14193 |
 | 12 | 0.14 s | 11.7× | 3.14187 |
 | 24 | 0.10 s | 16.3× | 3.14166 |

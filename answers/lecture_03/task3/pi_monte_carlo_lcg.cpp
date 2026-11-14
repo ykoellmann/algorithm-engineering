@@ -1,3 +1,4 @@
+#include <iomanip>
 #include <iostream>
 #include <omp.h>
 
@@ -36,7 +37,7 @@ int main() {
   auto run_time = omp_get_wtime() - start_time;
   auto pi = 4 * (double(counter) / n);
 
-  cout << "pi: " << pi << endl;
+  cout << setprecision(10) << "pi: " << pi << endl;
   cout << "run_time: " << run_time << " s" << endl;
   cout << "n: " << n << endl;
   cout << "threads: " << omp_get_max_threads() << endl;

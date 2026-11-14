@@ -1,3 +1,5 @@
 # Answers
 
-Antworten auf die Exam Assignments, ein Unterordner pro Vorlesung (z. B. `lecture_01/`).
+Answers to the exam assignments, one subfolder per lecture (e.g. `lecture_01/`).
+
+I used Claude (Anthropic) for spelling and wording and for formatting.

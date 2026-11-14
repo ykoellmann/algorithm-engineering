@@ -1,11 +1,11 @@
-# Algorithm Engineering – WiSe 2026/27
+# Algorithm Engineering – Winter Semester 2026/27
 
-Repository zum Modul **Algorithm Engineering** (Mark Blacher, Friedrich-Schiller-Universität Jena).
+Repository for the module **Algorithm Engineering** (Mark Blacher, Friedrich Schiller University Jena).
 
-| Ordner | Inhalt | Anteil an der Note |
+| Folder | Content | Share of the grade |
 |---|---|---|
-| [`answers/`](answers/) | Antworten auf die Exam Assignments (letzte Folie jeder Vorlesung) + Coding-Übungen | 40 % |
-| [`project/`](project/) | C++-Projekt | 40 % |
-| [`paper/`](paper/) | ca. 4-seitiges Paper zum Projekt (LaTeX, zweispaltig) | 20 % |
+| [`answers/`](answers/) | Answers to the exam assignments (last slide of each lecture) + coding exercises | 40 % |
+| [`project/`](project/) | C++ project | 40 % |
+| [`paper/`](paper/) | Paper on the project, about 4 pages (LaTeX, two columns) | 20 % |
 
-Abgabe aller drei Teile bis **1. März 2027**.
+All three parts are due on **1 March 2027**.

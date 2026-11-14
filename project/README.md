@@ -1,3 +1,3 @@
 # Project
 
-C++-Projekt – Beschreibung, Build und Ausführung folgen.
+C++ project – description, build and run instructions will follow.
